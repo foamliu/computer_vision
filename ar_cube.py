@@ -122,3 +122,10 @@ title('3D points projected in second image')
 axis('off')
 
 show()
+
+
+import pickle
+
+with open('data/ar_camera.pkl', 'w') as f:
+    pickle.dump(K, f)
+    pickle.dump(dot(linalg.inv(K),cam2.P), f)

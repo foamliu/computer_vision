@@ -6,8 +6,7 @@ from pygame.locals import *
 import numpy
 import pickle
 
-
-width, height = 2592 / 2, 1944 / 2
+width, height = 1000,747
 
 
 def set_projection_from_camera(K):
@@ -77,46 +76,47 @@ def load_and_draw_model(filename):
   glEnable(GL_DEPTH_TEST)
   glClear(GL_DEPTH_BUFFER_BIT)
   glMaterialfv(GL_FRONT, GL_AMBIENT, [0, 0, 0, 0])
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.5, 0.75, 1, 0])
-  glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128)
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.5, 0.75, 1.0, 0.0])
+  glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128.0)
   import objloader
   obj = objloader.OBJ(filename, swapyz=True)
   glScale(0.1, 0.1, 0.1)
   glCallList(obj.gl_list)
 
 
+def draw_teapot(size):
+  glEnable(GL_LIGHTING)
+  glEnable(GL_LIGHT0)
+  glEnable(GL_DEPTH_TEST)
+  glClear(GL_DEPTH_BUFFER_BIT)
+
+  glMaterialfv(GL_FRONT,GL_AMBIENT,[0,0,0,0])
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.5, 0.0, 0.0, 0.0])
+  glMaterialfv(GL_FRONT, GL_SPECULAR, [0.7,0.6,0.6,0.0])
+  glMaterialf(GL_FRONT,GL_SHININESS,0.25*128.0)
+  glutSolidTeapot(size)
+
 def setup():
   pygame.init()
   pygame.display.set_mode((width, height), OPENGL | DOUBLEBUF)
-  pygame.display.set_caption('Look, an OpenGL window!')
+  pygame.display.set_caption('OpenGL AR demo')
 
 
-with open('out_ch4_camera.pickle', 'rb') as f:
+with open('data/ar_camera.pkl', 'rb') as f:
   K = pickle.load(f)
   Rt = pickle.load(f)
 
-setup()
-draw_background('out_ch4pics/h_image.jpg')
 
-# FIXME: The origin ends up in a different place than in ch04_markerpose.py
-# somehow.
+setup()
+draw_background('data/book_perspective.bmp')
 set_projection_from_camera(K)
 set_modelview_from_camera(Rt)
+draw_teapot(0.1)
 
-glEnable(GL_LIGHTING)
-glEnable(GL_LIGHT0)
-glEnable(GL_DEPTH_TEST)
-glClear(GL_DEPTH_BUFFER_BIT)
-glMaterialfv(GL_FRONT, GL_AMBIENT, [0, 0, 0, 0])
-glMaterialfv(GL_FRONT, GL_DIFFUSE, [0.5, 0, 0, 0])
-glMaterialfv(GL_FRONT, GL_SHININESS, 0.25 * 128)
-for y in range(0, 1):
-  for x in range(0, 1):
-    glutSolidTeapot(0.02)
-    glTranslatef(0.04, 0, 0)
-  glTranslatef(-3 * 0.04, 0, 0.04)
-#load_and_draw_model('out_toyplane.obj')
+#load_and_draw_model('data/toyplane.obj')
+
 pygame.display.flip()
+
 
 while True:
   event = pygame.event.poll()
