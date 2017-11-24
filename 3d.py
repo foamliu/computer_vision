@@ -36,7 +36,7 @@ def set_modelview_from_camera(Rt):
   R = numpy.dot(U, V)
   R[0, :] = -R[0, :]  # Change sign of x axis.
 
-  print S
+  print(S)
   t = Rt[:, 3]
 
   M = numpy.eye(4)
