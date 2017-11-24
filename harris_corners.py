@@ -18,3 +18,4 @@ harris.plot_harris_points(im, filtered_coords)
 
 # plot only 200 strongest
 harris.plot_harris_points(im, filtered_coords[:200])
+
