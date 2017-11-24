@@ -21,14 +21,14 @@ def cube_points(c,wid):
     p.append([c[0]+wid,c[1]+wid,c[2]-wid])
     p.append([c[0]+wid,c[1]-wid,c[2]-wid])
     p.append([c[0]-wid,c[1]-wid,c[2]-wid]) #same as first to close plot
-    
+
     # top
     p.append([c[0]-wid,c[1]-wid,c[2]+wid])
     p.append([c[0]-wid,c[1]+wid,c[2]+wid])
     p.append([c[0]+wid,c[1]+wid,c[2]+wid])
     p.append([c[0]+wid,c[1]-wid,c[2]+wid])
     p.append([c[0]-wid,c[1]-wid,c[2]+wid]) #same as first to close plot
-    
+
     # vertical sides
     p.append([c[0]-wid,c[1]-wid,c[2]+wid])
     p.append([c[0]-wid,c[1]+wid,c[2]+wid])
@@ -37,7 +37,7 @@ def cube_points(c,wid):
     p.append([c[0]+wid,c[1]+wid,c[2]+wid])
     p.append([c[0]+wid,c[1]-wid,c[2]+wid])
     p.append([c[0]+wid,c[1]-wid,c[2]-wid])
-    
+
     return array(p).T
 
 
@@ -66,12 +66,12 @@ l1,d1 = sift.read_features_from_file('im1.sift')
 # match features and estimate homography
 matches = sift.match_twosided(d0,d1)
 ndx = matches.nonzero()[0]
-fp = homography.make_homog(l0[ndx,:2].T) 
+fp = homography.make_homog(l0[ndx,:2].T)
 ndx2 = [int(matches[i]) for i in ndx]
 tp = homography.make_homog(l1[ndx2,:2].T)
 
 model = homography.RansacModel()
-H, inliers = homography.H_from_ransac(fp,tp,model) 
+H, inliers = homography.H_from_ransac(fp,tp,model)
 
 # camera calibration
 K = my_calibration((747,1000))
@@ -82,7 +82,7 @@ box = cube_points([0,0,0.1],0.1)
 # project bottom square in first image
 cam1 = camera.Camera( hstack((K,dot(K,array([[0],[0],[-1]])) )) )
 # first points are the bottom square
-box_cam1 = cam1.project(homography.make_homog(box[:,:5])) 
+box_cam1 = cam1.project(homography.make_homog(box[:,:5]))
 
 
 # use H to transfer points to the second image
@@ -91,7 +91,7 @@ box_trans = homography.normalize(dot(H,box_cam1))
 # compute second camera matrix from cam1 and H
 cam2 = camera.Camera(dot(H,cam1.P))
 A = dot(linalg.inv(K),cam2.P[:,:3])
-A = array([A[:,0],A[:,1],cross(A[:,0],A[:,1])]).T 
+A = array([A[:,0],A[:,1],cross(A[:,0],A[:,1])]).T
 cam2.P[:,:3] = dot(K,A)
 
 # project with the second camera
@@ -102,6 +102,7 @@ box_cam2 = cam2.project(homography.make_homog(box))
 # plotting
 im0 = array(Image.open('data/book_frontal.JPG'))
 im1 = array(Image.open('data/book_perspective.JPG'))
+
 
 figure()
 imshow(im0)

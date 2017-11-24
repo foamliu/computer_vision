@@ -95,6 +95,7 @@ def draw_teapot(size):
   glMaterialfv(GL_FRONT, GL_SPECULAR, [0.7,0.6,0.6,0.0])
   glMaterialf(GL_FRONT,GL_SHININESS,0.25*128.0)
   glutSolidTeapot(size)
+  #glutSolidCube(size)
 
 def setup():
   pygame.init()
