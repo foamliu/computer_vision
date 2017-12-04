@@ -22,8 +22,8 @@ with np.load('data/calib.npz') as calibData:
     mtx, dist, rvecs, tvecs = [calibData[i] for i in ('mtx', 'dist', 'rvecs', 'tvecs')]
 
 # Define the chess board rows and columns
-rows = 7
-cols = 6
+rows = 11
+cols = 8
 
 # Set the termination criteria for the corner sub-pixel algorithm
 criteria = (cv2.TERM_CRITERIA_MAX_ITER + cv2.TERM_CRITERIA_EPS, 30, 0.001)
@@ -36,7 +36,7 @@ objectPoints[:, :, :2] = np.mgrid[0:rows, 0:cols].T.reshape(-1, 1, 2)
 axisPoints = np.float32([[3, 0, 0], [0, 3, 0], [0, 0, -3]]).reshape(-1, 3)
 
 # Loop over the image files
-for path in glob.glob('data/left[0-1][0-9].jpg'):
+for path in glob.glob('data/left0[1-8].png'):
     # Load the image and convert it to gray scale
     img = cv2.imread(path)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
