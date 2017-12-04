@@ -7,10 +7,8 @@ import numpy as np
 import cv2
 
 # Load the left and right images in gray scale
-#imgLeft = cv2.imread('data/tsukuba_l.png', 0)
-#imgRight = cv2.imread('data/tsukuba_r.png', 0)
-imgLeft = cv2.imread('data/room_l.jpg', 0)
-imgRight = cv2.imread('data/room_r.jpg', 0)
+imgLeft = cv2.imread('data/tsukuba_l.png', 0)
+imgRight = cv2.imread('data/tsukuba_r.png', 0)
 
 # Initialize the stereo block matching object
 stereo = cv2.StereoBM_create(numDisparities=32, blockSize=13)
