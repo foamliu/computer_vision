@@ -4,7 +4,7 @@ import cv2
 cameraCapture = cv2.VideoCapture(0)
 cv2.namedWindow('ORB')
 
-image_0 = cv2.imread('data/mi5_book_frontal.jpg')
+image_0 = cv2.imread('data/slambook.jpg')
 
 # Initiate ORB detector
 orb = cv2.ORB_create(2000)
@@ -26,9 +26,14 @@ while ret and cv2.waitKey(1) != 27:
 
     # Sort them in the order of their distance.
     matches = sorted(matches, key = lambda x:x.distance)
+    
+    good = []
+    for m,n in matches:
+        if m.distance < 0.7*n.distance:
+            good.append(m)
 
     # Draw first 40 matches.
-    mat_img = cv2.drawMatches(image,kp,image_0,kp_0,matches[:40],None,flags=2)
+    mat_img = cv2.drawMatches(image,kp,image_0,kp_0,good[:40],None,flags=2)
 
     cv2.imshow('MyWindow', mat_img)
     success, image = cameraCapture.read()
