@@ -12,17 +12,21 @@ def order_points(pts):
 
     # the top-left point will have the smallest sum, whereas
     # the bottom-right point will have the largest sum
-    s = pts.sum(axis=1)
-    rect[0] = pts[np.argmin(s)]
-    rect[2] = pts[np.argmax(s)]
+    #s = pts.sum(axis=0)
+    #rect[0] = pts[np.argmin(s)]
+    #rect[2] = pts[np.argmax(s)]
 
     # now, compute the difference between the points, the
     # top-right point will have the smallest difference,
     # whereas the bottom-left will have the largest difference
-    diff = np.diff(pts, axis=1)
-    rect[1] = pts[np.argmin(diff)]
-    rect[3] = pts[np.argmax(diff)]
+    #diff = np.diff(pts, axis=0)
+    #rect[1] = pts[np.argmin(diff)]
+    #rect[3] = pts[np.argmax(diff)]
 
+    rect[0] = (372,126)
+    rect[1] = (478,117)
+    rect[2] = (479,248)
+    rect[3] = (369,253)
     # return the ordered coordinates
     return rect
 
@@ -83,8 +87,12 @@ args = vars(ap.parse_args())
 # NOTE: using the 'eval' function is bad form, but for this example
 # let's just roll with it -- in future posts I'll show you how to
 # automatically determine the coordinates without pre-supplying them
-image = cv2.imread(args["image"])
-pts = np.array(eval(args["coords"]), dtype="float32")
+#image = cv2.imread(args["image"])
+#pts = np.array(eval(args["coords"]), dtype="float32")
+
+image = cv2.imread("data/picture_in_scene.png")
+pts = np.array(eval("372,126,478,117,479,248,369,253"), dtype="float32")
+print(pts)
 
 # apply the four point tranform to obtain a "birds eye view" of
 # the image
@@ -95,4 +103,4 @@ cv2.imshow("Original", image)
 cv2.imshow("Warped", warped)
 cv2.waitKey(0)
 
-#python PerspectiveTransform.py -i -c 372,126,478,117,479,248,369,253
+#python PerspectiveTransform.py -i "/home/foamliu/code/computer_vision/data/picture_in_scene.png" -c "372,126,478,117,479,248,369,253"
