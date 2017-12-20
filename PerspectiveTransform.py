@@ -94,3 +94,5 @@ warped = four_point_transform(image, pts)
 cv2.imshow("Original", image)
 cv2.imshow("Warped", warped)
 cv2.waitKey(0)
+
+#python PerspectiveTransform.py -i -c 372,126,478,117,479,248,369,253
