@@ -3,7 +3,7 @@ import cv2
 from matplotlib import pyplot as plt
 
 bg = cv2.imread('data/box_in_scene.png', 0)
-img = cv2.imread('data/yimeng.jpg')
+img = cv2.imread('data/yimeng.png')
 img = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
 
 M = np.array([[  4.41540342e-01,  -1.60499555e-01,   1.18716337e+02],
